@@ -4,7 +4,14 @@ name: default
 steps:
 - name: test
   image: maven:3-jdk-11
+  volumes:
+    - name: cache # The Volume's name
+      path: /root/.m2 # The path in the container
   commands:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B
   - mvn package
+volumes:
+  - name: cache # The name use in this pipeline,
+    host:
+      path: /tmp/drone/maven-cache # The path be used in the host.
